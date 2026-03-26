@@ -212,9 +212,57 @@
     },
     {
       "name": "Starts With S",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is JSON\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"All names start with letter\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    data.forEach(item => {\r",
+              "        pm.expect(item.Name.toLowerCase().startsWith(\"s\")).to.be.true;\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/startsWith?letter=s",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "startsWith"
+          ],
+          "query": [
+            {
+              "key": "letter",
+              "value": "s"
+            }
+          ]
+        }
       },
       "response": []
     },

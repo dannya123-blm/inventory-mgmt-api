@@ -14,14 +14,15 @@ pipeline {
         }
 
         stage('Check Tools') {
-            steps {
-                bat 'echo %PATH%'
-                bat 'python --version'
-                bat 'docker --version'
-                bat 'node --version'
-                bat 'newman --version'
-            }
+        steps {
+            bat 'echo %PATH%'
+            bat 'python --version'
+            bat 'docker --version'
+            bat 'node --version'
+            bat 'npm install -g newman'
+            bat 'newman --version'
         }
+    }
 
         stage('Generate README') {
             steps {

@@ -38,7 +38,7 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                bat 'docker rm -f %CONTAINER_NAME% 2>nul'
+                bat 'docker rm -f %CONTAINER_NAME% >nul 2>&1 || exit /b 0'
                 bat 'docker run -d --name %CONTAINER_NAME% -p 8000:8000 %IMAGE_NAME%'
             }
         }

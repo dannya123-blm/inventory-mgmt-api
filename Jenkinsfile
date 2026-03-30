@@ -39,7 +39,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 bat 'docker rm -f %CONTAINER_NAME% >nul 2>&1 || exit /b 0'
-                bat 'docker run -d --name %CONTAINER_NAME% -p 8000:8000 %IMAGE_NAME%'
+                bat 'docker run -d --name %CONTAINER_NAME% -p 8001:8000 %IMAGE_NAME%'
             }
         }
 
@@ -50,7 +50,7 @@ powershell -Command ^
 "$maxAttempts=20; ^
 for($i=1; $i -le $maxAttempts; $i++){ ^
   try { ^
-    $response = Invoke-WebRequest -Uri 'http://localhost:8000/docs' -UseBasicParsing; ^
+    $response = Invoke-WebRequest -Uri 'http://localhost:8001/docs' -UseBasicParsing; ^
     if($response.StatusCode -eq 200){ exit 0 } ^
   } catch {} ^
   Start-Sleep -Seconds 3 ^
@@ -62,7 +62,7 @@ exit 1"
 
         stage('Run Newman Tests') {
             steps {
-                bat 'npx newman run .postman/InventoryAPI.postman_collection.json'
+                bat 'npx newman run .postman/InventoryAPI.postman_collection.json --env-var baseUrl=http://localhost:8001'
             }
         }
 

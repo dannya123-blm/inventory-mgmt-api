@@ -20,7 +20,7 @@ pipeline {
             bat 'docker --version'
             bat 'node --version'
             bat 'npm install newman'
-            bat 'newman --version'
+            bat 'npx newman --version'
         }
     }
 

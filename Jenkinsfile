@@ -19,7 +19,7 @@ pipeline {
             bat 'python --version'
             bat 'docker --version'
             bat 'node --version'
-            bat 'npm install -g newman'
+            bat 'npm install newman'
             bat 'newman --version'
         }
     }
@@ -62,7 +62,7 @@ exit 1"
 
         stage('Run Newman Tests') {
             steps {
-                bat 'newman run .postman/InventoryAPI.postman_collection.json'
+                bat 'npx newman run .postman/InventoryAPI.postman_collection.json'
             }
         }
 
@@ -80,7 +80,7 @@ Compress-Archive -Path app.py,database.py,models.py,load_csv.py,requirements.txt
 
     post {
         always {
-            bat 'docker rm -f %CONTAINER_NAME% 2>nul'
+            bat 'docker rm -f %CONTAINER_NAME% >nul 2>&1 || exit /b 0'
             archiveArtifacts artifacts: 'README.txt, complete-*.zip', fingerprint: true
         }
     }
